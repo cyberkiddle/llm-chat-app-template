@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="msapplication-tap-highlight" content="no">
 
-  <!-- External Stylesheets -->
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/02/02e/02ezw8.css?ph=87c2852472">
   <link rel="stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/0o/0og/0ogzq1.css?ph=87c2852472" media="screen and (min-width:37.5em)">
   <link rel="stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/2m/2m4/2m4hib.css?ph=87c2852472" data-wnd_color_scheme_file="">
@@ -19,7 +19,6 @@
 
   <!-- Custom Styles -->
   <style>
-    /* Root Colors */
     :root {
       --primary-color: #f6821f;
       --primary-hover: #ff9f43;
@@ -32,7 +31,6 @@
       --assistant-msg-bg: rgba(255, 255, 255, 0.12);
     }
 
-    /* Reset */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -118,14 +116,6 @@
       white-space: pre-wrap;
       word-wrap: break-word;
       position: relative;
-    }
-
-    /* Code-style wrapper for assistant messages */
-    .assistant-message::before,
-    .assistant-message::after {
-      content: "`";
-      color: var(--primary-color);
-      font-weight: bold;
     }
 
     /* Input Area */
