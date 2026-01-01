@@ -102,35 +102,38 @@
       align-self: flex-start;
     }
 
-    .message-input {
-      display: flex;
-      padding: 0.75rem;
-      border-top: 1px solid var(--border-color);
-      background: rgba(0,0,0,0.3);
-    }
+.message-input {
+  display: flex;
+  padding: 1rem; /* increased padding from 0.75rem to 1rem */
+  border-top: 1px solid var(--border-color);
+  background: rgba(0,0,0,0.3);
+  align-items: center; /* vertically center the input and button */
+  gap: 0.5rem; /* spacing between textarea and button */
+}
 
-    #user-input {
-      flex: 1;
-      padding: 0.75rem;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      font-family: inherit;
-      resize: none;
-      min-height: 44px;
-      background: rgba(255,255,255,0.05);
-      color: var(--text-color);
-    }
+#user-input {
+  flex: 1;
+  padding: 0.75rem 0.75rem 0.75rem 0.75rem; /* keep top, bottom, left, right padding equal */
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: inherit;
+  resize: none;
+  min-height: 44px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-color);
+  line-height: 1.4; /* optional: better vertical spacing for text */
+}
 
-    #send-button {
-      margin-left: 0.5rem;
-      padding: 0 1rem;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
+#send-button {
+  padding: 0.75rem 1rem; /* vertically aligned with textarea */
+  border-radius: 6px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
 
     #send-button:hover {
       background-color: var(--primary-hover);
