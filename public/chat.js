@@ -1,4 +1,4 @@
-/**
+kid/**
  * LLM Chat App Frontend (Refactored, XSS-Safe)
  * Functionality: UNCHANGED
  */
@@ -14,7 +14,7 @@ let chatHistory = [
 	{
 		role: "assistant",
 		content:
-			"Hello! I'm an LLM chat app powered by Cloudflare Workers AI. How can I help you today?",
+			"Hello! I'm an cyberkid chat app sercured by Cloudflare Workers AI. How can I help you today?",
 	},
 ];
 
