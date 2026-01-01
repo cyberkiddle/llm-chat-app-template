@@ -104,38 +104,37 @@
 
 .message-input {
   display: flex;
-  padding: 1rem; /* container padding */
+  padding: 1rem; /* enough space around */
   border-top: 1px solid var(--border-color);
-  background: rgba(0,0,0,0.3);
-  align-items: flex-start; /* keep input aligned top */
-  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  align-items: center; /* vertically center input and button */
+  gap: 0.5rem; /* spacing between input and button */
 }
 
 #user-input {
   flex: 1;
-  padding: 0.75rem;
+  padding: 0.9rem 1rem; /* more vertical padding for better placeholder appearance */
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 8px;
   font-family: inherit;
   resize: none;
-  min-height: 44px;
-  background: rgba(255,255,255,0.05);
+  min-height: 50px; /* slightly taller for comfort */
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-color);
-  line-height: 1.4;
+  line-height: 1.5;
+  outline: none;
 }
 
 #send-button {
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: 0.8rem 1.2rem; /* taller and wider to match textarea */
+  border-radius: 8px;
   background-color: var(--primary-color);
   color: #fff;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s;
-
-  /* Move button slightly up to align better with textarea */
-  margin-top: 6px; /* adjust this value to move it higher or lower */
 }
+
 
 
 
