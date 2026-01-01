@@ -4,16 +4,6 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>LLM Chat App</title>
-		<head><link rel="preconnect" href="https://duyn491kcolsw.cloudfront.net" crossorigin><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><meta charset="utf-8"><link rel="icon" href="icom.png" type="image/svg+xml" sizes="any"><link rel="icon" href="icom.png" type="image/svg+xml" sizes="16x16"><link rel="icon" href="icom.png"><link rel="apple-touch-icon" href="icom.png"><link rel="icon" href="icom.png">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Services :: cyberkiddles</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="msapplication-tap-highlight" content="no">
-    
-    <link href="https://duyn491kcolsw.cloudfront.net/files/0r/0rk/0rklmm.css?ph=87c2852472" media="print" rel="stylesheet">
-    <link href="https://duyn491kcolsw.cloudfront.net/files/3d/3d4/3d4pv1.css?ph=87c2852472" media="screen and (min-width:100000em)" rel="stylesheet" data-type="cq" disabled>
-    <link rel="stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/02/02e/02ezw8.css?ph=87c2852472"><link rel="stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/0o/0og/0ogzq1.css?ph=87c2852472" media="screen and (min-width:37.5em)"><link rel="stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/2m/2m4/2m4hib.css?ph=87c2852472" data-wnd_color_scheme_file=""><link rel="stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/43/43m/43m285.css?ph=87c2852472" data-wnd_color_scheme_desktop_file="" media="screen and (min-width:37.5em)" disabled=""><link rel="stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/2q/2qz/2qzh3a.css?ph=87c2852472" data-wnd_additive_color_file=""><link rel="stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/23/231/2317rj.css?ph=87c2852472" data-wnd_typography_file=""><link rel="stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/15/15w/15w2x4.css?ph=87c2852472" data-wnd_typography_desktop_file="" media="screen and (min-width:37.5em)" disabled=""><script>(()=>{let e=!1;const t=()=>{if(!e&&window.innerWidth>=600){for(let e=0,t=document.querySelectorAll('head > link[href*="css"][media="screen and (min-width:37.5em)"]');e<t.length;e++)t[e].removeAttribute("disabled");e=!0}};t(),window.addEventListener("resize",t),"container"in document.documentElement.style||fetch(document.querySelector('head > link[data-type="cq"]').getAttribute("href")).then((e=>{e.text().then((e=>{const t=document.createElement("style");document.head.appendChild(t),t.appendChild(document.createTextNode(e)),import("https://duyn491kcolsw.cloudfront.net/client/js.polyfill/container-query-polyfill.modern.js").then((()=>{let e=setInterval((function(){document.body&&(document.body.classList.add("cq-polyfill-loaded"),clearInterval(e))}),100)}))}))}))})()</script>
-<link rel="preload stylesheet" href="https://duyn491kcolsw.cloudfront.net/files/2m/2m8/2m8msc.css?ph=87c2852472" as="style"><meta name="description" content="Tempora incidunt Iste natus error Nulla pariatur At vero"><meta name="keywords" content=""><meta name="generator" content="Webnode 2"><meta name="apple-mobile-web-app-capable" content="no"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="format-detection" content="telephone=no">
 
 	<style>
 		:root {
@@ -35,8 +25,8 @@
 		}
 
 		body {
-			font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-				Roboto, Ubuntu, Cantarell, sans-serif;
+			font-family: Inter, -apple-system, BlinkMacSystemFont,
+				"Segoe UI", Roboto, Ubuntu, Cantarell, sans-serif;
 			background: var(--bg-gradient);
 			color: var(--text-color);
 			max-width: 900px;
@@ -45,7 +35,6 @@
 			line-height: 1.6;
 		}
 
-		/* ---------- HEADER ---------- */
 		header {
 			text-align: center;
 			margin-bottom: 1.8rem;
@@ -56,7 +45,6 @@
 			background: linear-gradient(90deg, #f6821f, #ffd166);
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
-			letter-spacing: 0.5px;
 		}
 
 		header p {
@@ -65,7 +53,6 @@
 			margin-top: 0.4rem;
 		}
 
-		/* ---------- CHAT CONTAINER ---------- */
 		.chat-container {
 			display: flex;
 			flex-direction: column;
@@ -75,11 +62,10 @@
 			backdrop-filter: blur(18px);
 			border-radius: 16px;
 			border: 1px solid var(--border-color);
-			box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+			box-shadow: 0 25px 60px rgba(0,0,0,0.6);
 			overflow: hidden;
 		}
 
-		/* ---------- MESSAGES ---------- */
 		.chat-messages {
 			flex: 1;
 			overflow-y: auto;
@@ -111,7 +97,6 @@
 			border-bottom-left-radius: 4px;
 		}
 
-		/* ---------- TYPING INDICATOR ---------- */
 		.typing-indicator {
 			display: none;
 			padding: 0.6rem 1.2rem;
@@ -123,13 +108,31 @@
 			display: block;
 		}
 
-		/* ---------- INPUT ---------- */
 		.message-input {
 			display: flex;
 			gap: 0.6rem;
 			padding: 0.8rem;
 			border-top: 1px solid var(--border-color);
-			background: rgba(0, 0, 0, 0.35);
+			background: rgba(0,0,0,0.35);
+		}
+
+		.file-upload {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 42px;
+			height: 42px;
+			border-radius: 10px;
+			cursor: pointer;
+			font-size: 1.2rem;
+			background: rgba(255,255,255,0.12);
+			border: 1px solid var(--border-color);
+			transition: background 0.2s, transform 0.15s;
+		}
+
+		.file-upload:hover {
+			background: rgba(255,255,255,0.2);
+			transform: translateY(-1px);
 		}
 
 		#user-input {
@@ -137,7 +140,7 @@
 			padding: 0.75rem 0.9rem;
 			border-radius: 10px;
 			border: 1px solid var(--border-color);
-			background: rgba(0, 0, 0, 0.4);
+			background: rgba(0,0,0,0.4);
 			color: var(--text-color);
 			font-family: inherit;
 			resize: none;
@@ -162,7 +165,7 @@
 
 		#send-button:hover {
 			transform: translateY(-1px);
-			box-shadow: 0 0 18px rgba(246, 130, 31, 0.6);
+			box-shadow: 0 0 18px rgba(246,130,31,0.6);
 		}
 
 		#send-button:disabled {
@@ -171,7 +174,6 @@
 			box-shadow: none;
 		}
 
-		/* ---------- FOOTER ---------- */
 		footer {
 			margin-top: 1rem;
 			text-align: center;
@@ -179,16 +181,9 @@
 			color: var(--text-light);
 		}
 
-		/* ---------- ANIMATION ---------- */
 		@keyframes fadeUp {
-			from {
-				opacity: 0;
-				transform: translateY(6px);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
+			from { opacity: 0; transform: translateY(6px); }
+			to { opacity: 1; transform: translateY(0); }
 		}
 	</style>
 </head>
@@ -203,7 +198,7 @@
 		<div id="chat-messages" class="chat-messages">
 			<div class="message assistant-message">
 				<p>
-					🤖 Hello! I'm your Cyberkid chat app powered by Cloudflare Workers AI.
+					🤖 Hello! I'm your Cyberkid LLM chat app powered by Cloudflare Workers AI.
 					How can I help you today?
 				</p>
 			</div>
@@ -214,20 +209,65 @@
 		</div>
 
 		<div class="message-input">
+			<label class="file-upload">
+				<input type="file" id="file-input" hidden />
+				📎
+			</label>
+
 			<textarea
 				id="user-input"
 				placeholder="Type your message here..."
 				rows="1"
 				autofocus
 			></textarea>
+
 			<button id="send-button">Send</button>
 		</div>
 	</div>
 
 	<footer>
-		<p>Cyberkid Workers AI.&copy; 2025</p>
+		<p>Cyberkid Workers AI Chat Template &copy; 2025</p>
 	</footer>
 
 	<script src="chat.js"></script>
+
+	<!-- SAFE FILE UPLOAD HANDLER (XSS FIXED) -->
+	<script>
+		const fileInput = document.getElementById("file-input");
+		const chatMessages = document.getElementById("chat-messages");
+
+		fileInput.addEventListener("change", () => {
+			const file = fileInput.files[0];
+			if (!file) return;
+
+			const allowedTypes = [
+				"text/plain",
+				"text/markdown",
+				"application/json"
+			];
+
+			if (!allowedTypes.includes(file.type)) {
+				alert("Only .txt, .md, or .json files are allowed");
+				fileInput.value = "";
+				return;
+			}
+
+			const reader = new FileReader();
+			reader.onload = () => {
+				const msg = document.createElement("div");
+				msg.className = "message user-message";
+
+				const p = document.createElement("p");
+				p.textContent = `📎 ${file.name}\n\n${reader.result.slice(0, 4000)}`;
+
+				msg.appendChild(p);
+				chatMessages.appendChild(msg);
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+			};
+
+			reader.readAsText(file);
+			fileInput.value = "";
+		});
+	</script>
 </body>
 </html>
