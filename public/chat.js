@@ -1,5 +1,5 @@
 /**
- * LLM Chat App Frontend
+ * LLM Chat App Frontend (XSS-SAFE)
  *
  * Handles the chat UI interactions and communication with the backend API.
  */
@@ -20,13 +20,13 @@ let chatHistory = [
 ];
 let isProcessing = false;
 
-// Auto-resize textarea as user types
+// Auto-resize textarea
 userInput.addEventListener("input", function () {
 	this.style.height = "auto";
 	this.style.height = this.scrollHeight + "px";
 });
 
-// Send message on Enter (without Shift)
+// Send on Enter (no Shift)
 userInput.addEventListener("keydown", function (e) {
 	if (e.key === "Enter" && !e.shiftKey) {
 		e.preventDefault();
@@ -34,160 +34,98 @@ userInput.addEventListener("keydown", function (e) {
 	}
 });
 
-// Send button click handler
+// Send button
 sendButton.addEventListener("click", sendMessage);
 
-/**
- * Sends a message to the chat API and processes the response
- */
 async function sendMessage() {
 	const message = userInput.value.trim();
+	if (!message || isProcessing) return;
 
-	// Don't send empty messages
-	if (message === "" || isProcessing) return;
-
-	// Disable input while processing
 	isProcessing = true;
 	userInput.disabled = true;
 	sendButton.disabled = true;
 
-	// Add user message to chat
 	addMessageToChat("user", message);
 
-	// Clear input
 	userInput.value = "";
 	userInput.style.height = "auto";
-
-	// Show typing indicator
 	typingIndicator.classList.add("visible");
 
-	// Add message to history
 	chatHistory.push({ role: "user", content: message });
 
 	try {
-		// Create new assistant response element
+		// Create assistant message safely
 		const assistantMessageEl = document.createElement("div");
 		assistantMessageEl.className = "message assistant-message";
-		assistantMessageEl.innerHTML = "<p></p>";
-		chatMessages.appendChild(assistantMessageEl);
-		const assistantTextEl = assistantMessageEl.querySelector("p");
 
-		// Scroll to bottom
+		const assistantTextEl = document.createElement("p");
+		assistantMessageEl.appendChild(assistantTextEl);
+		chatMessages.appendChild(assistantMessageEl);
+
 		chatMessages.scrollTop = chatMessages.scrollHeight;
 
-		// Send request to API
 		const response = await fetch("/api/chat", {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				messages: chatHistory,
-			}),
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ messages: chatHistory }),
 		});
 
-		// Handle errors
-		if (!response.ok) {
+		if (!response.ok || !response.body) {
 			throw new Error("Failed to get response");
 		}
-		if (!response.body) {
-			throw new Error("Response body is null");
-		}
 
-		// Process streaming response
 		const reader = response.body.getReader();
 		const decoder = new TextDecoder();
 		let responseText = "";
 		let buffer = "";
-		const flushAssistantText = () => {
+
+		const flush = () => {
 			assistantTextEl.textContent = responseText;
 			chatMessages.scrollTop = chatMessages.scrollHeight;
 		};
 
-		let sawDone = false;
 		while (true) {
 			const { done, value } = await reader.read();
+			if (done) break;
 
-			if (done) {
-				// Process any remaining complete events in buffer
-				const parsed = consumeSseEvents(buffer + "\n\n");
-				for (const data of parsed.events) {
-					if (data === "[DONE]") {
-						break;
-					}
-					try {
-						const jsonData = JSON.parse(data);
-						// Handle both Workers AI format (response) and OpenAI format (choices[0].delta.content)
-						let content = "";
-						if (
-							typeof jsonData.response === "string" &&
-							jsonData.response.length > 0
-						) {
-							content = jsonData.response;
-						} else if (jsonData.choices?.[0]?.delta?.content) {
-							content = jsonData.choices[0].delta.content;
-						}
-						if (content) {
-							responseText += content;
-							flushAssistantText();
-						}
-					} catch (e) {
-						console.error("Error parsing SSE data as JSON:", e, data);
-					}
-				}
-				break;
-			}
-
-			// Decode chunk
 			buffer += decoder.decode(value, { stream: true });
 			const parsed = consumeSseEvents(buffer);
 			buffer = parsed.buffer;
+
 			for (const data of parsed.events) {
-				if (data === "[DONE]") {
-					sawDone = true;
-					buffer = "";
-					break;
-				}
+				if (data === "[DONE]") break;
+
 				try {
-					const jsonData = JSON.parse(data);
-					// Handle both Workers AI format (response) and OpenAI format (choices[0].delta.content)
-					let content = "";
-					if (
-						typeof jsonData.response === "string" &&
-						jsonData.response.length > 0
-					) {
-						content = jsonData.response;
-					} else if (jsonData.choices?.[0]?.delta?.content) {
-						content = jsonData.choices[0].delta.content;
+					const json = JSON.parse(data);
+					let chunk = "";
+
+					if (typeof json.response === "string") {
+						chunk = json.response;
+					} else if (json.choices?.[0]?.delta?.content) {
+						chunk = json.choices[0].delta.content;
 					}
-					if (content) {
-						responseText += content;
-						flushAssistantText();
+
+					if (chunk) {
+						responseText += chunk;
+						flush();
 					}
-				} catch (e) {
-					console.error("Error parsing SSE data as JSON:", e, data);
+				} catch {
+					// Ignore malformed chunks safely
 				}
-			}
-			if (sawDone) {
-				break;
 			}
 		}
 
-		// Add completed response to chat history
-		if (responseText.length > 0) {
+		if (responseText) {
 			chatHistory.push({ role: "assistant", content: responseText });
 		}
-	} catch (error) {
-		console.error("Error:", error);
+	} catch (err) {
+		console.error(err);
 		addMessageToChat(
 			"assistant",
 			"Sorry, there was an error processing your request.",
 		);
 	} finally {
-		// Hide typing indicator
 		typingIndicator.classList.remove("visible");
-
-		// Re-enable input
 		isProcessing = false;
 		userInput.disabled = false;
 		sendButton.disabled = false;
@@ -196,35 +134,40 @@ async function sendMessage() {
 }
 
 /**
- * Helper function to add message to chat
+ * SAFE message renderer (NO innerHTML)
  */
 function addMessageToChat(role, content) {
 	const messageEl = document.createElement("div");
 	messageEl.className = `message ${role}-message`;
-	messageEl.innerHTML = `<p>${content}</p>`;
-	chatMessages.appendChild(messageEl);
 
-	// Scroll to bottom
+	const p = document.createElement("p");
+	p.textContent = content; // 🔒 XSS FIX
+
+	messageEl.appendChild(p);
+	chatMessages.appendChild(messageEl);
 	chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+/**
+ * SSE parser
+ */
 function consumeSseEvents(buffer) {
-	let normalized = buffer.replace(/\r/g, "");
 	const events = [];
-	let eventEndIndex;
-	while ((eventEndIndex = normalized.indexOf("\n\n")) !== -1) {
-		const rawEvent = normalized.slice(0, eventEndIndex);
-		normalized = normalized.slice(eventEndIndex + 2);
+	let normalized = buffer.replace(/\r/g, "");
+	let idx;
 
-		const lines = rawEvent.split("\n");
-		const dataLines = [];
-		for (const line of lines) {
-			if (line.startsWith("data:")) {
-				dataLines.push(line.slice("data:".length).trimStart());
-			}
+	while ((idx = normalized.indexOf("\n\n")) !== -1) {
+		const raw = normalized.slice(0, idx);
+		normalized = normalized.slice(idx + 2);
+
+		const dataLines = raw
+			.split("\n")
+			.filter((l) => l.startsWith("data:"))
+			.map((l) => l.slice(5).trimStart());
+
+		if (dataLines.length) {
+			events.push(dataLines.join("\n"));
 		}
-		if (dataLines.length === 0) continue;
-		events.push(dataLines.join("\n"));
 	}
 	return { events, buffer: normalized };
 }
